@@ -33,16 +33,12 @@ public class Receiver {
         connection = connectionFactory.createConnection();
         connection.start();
 
-        // Creating session for seding messages
-        session = connection.createSession(false,
-                Session.AUTO_ACKNOWLEDGE);
+        session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
-        // Getting the queue 'JCG_QUEUE'
         Destination destination = session.createQueue(subject);
 
-        // MessageConsumer is used for receiving (consuming) messages
         consumer = session.createConsumer(destination);
-        consumer.setMessageListener(new MyMessageListener());
+        consumer.setMessageListener(new MyMessageListener(eventsReceiverService));
         eventsReceiverService.requestEvents();
     }
 

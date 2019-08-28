@@ -4,46 +4,88 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core"
 >
-<h:head/>
+<h:head>
+    <h:outputScript library="primefaces" name="jquery/jquery.js" target="head"/>
+    <style type="text/css">
+        .ui-datatable .ui-datatable-header {
+            text-align: right !important;
+        }
+
+        .ui-button-text-only .ui-button-text {
+            padding: 0.3em 0.4em;
+        }
+
+        .ui-selectcheckboxmenu-panel .ui-selectcheckboxmenu-header .ui-chkbox {
+            visibility: hidden;
+        }
+
+        .ui-filter-column .ui-column-customfilter .custom-filter {
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .year-spinner input {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    </style>
+</h:head>
 <body>
-<!--<p:layout id="toplayout" style="min-width:600px;min-height:300px;">-->
-<!--    <p:layoutUnit id="westLayout" position="west" resizable="false" size="400" minSize="400" maxSize="500">-->
-        <h:form id="topForm">
-            <p:poll interval="3" update="myTable"/>
-        </h:form>
-<!--        <p:layoutUnit id="centerLayout" position="center">-->
-            <p:dataTable id="myTable" var="event" value="#{eventsReceiverService.events}">
-                <p:column headerText="Date">
-                    <h:outputText value="#{event.date}"/>
-                </p:column>
-                <p:column headerText="Status">
-                    <h:outputText value="#{event.status}"/>
-                </p:column>
-                <p:column headerText="Patient name">
-                    <h:outputText value="#{event.patientName}"/>
-                </p:column>
-                <p:column headerText="Building">
-                    <h:outputText value="#{event.building}"/>
-                </p:column>
-                <p:column headerText="Ward">
-                    <h:outputText value="#{event.ward}"/>
-                </p:column>
-                <p:column headerText="Kind's name">
-                    <h:outputText value="#{event.promedName}"/>
-                </p:column>
 
-                <p:column headerText="Dose">
-                    <h:outputText value="#{event.dose}"/>
-                </p:column>
 
-                <p:column headerText="Nurse">
-                    <h:outputText value="#{event.nurseName}"/>
-                </p:column>
-            </p:dataTable>
-<!--        </p:layoutUnit>-->
+<h:form>
+    <p:poll interval="3" update="eventsTable"/>
 
-<!--    </p:layoutUnit>-->
-<!--</p:layout>-->
+    <p:dataTable var="event" value="#{eventsView.events}" widgetVar="eventsTable" id="eventsTable"
+                 emptyMessage="No events found with given criteria" filteredValue="#{eventsView.filteredEvents}">
 
+        <p:column headerText="Date">
+            <h:outputText value="#{event.date}"/>
+        </p:column>
+        <p:column filterBy="#{event.status}" filterMatchMode="in" id="status">
+            <f:facet name="filter">
+                <p:selectCheckboxMenu label="Status" onchange="PF('eventsTable').filter()" scrollHeight="150"
+                                      styleClass="custom-filter">
+                    <f:selectItems value="#{eventsView.statuses}"/>
+                </p:selectCheckboxMenu>
+            </f:facet>
+            <h:outputText value="#{event.status}"/>
+        </p:column>
+
+        <p:column filterBy="#{event.patientName}" headerText="Patient name" filterMatchMode="contains">
+            <h:outputText value="#{event.patientName}"/>
+        </p:column>
+        <p:column filterBy="#{event.building}" filterMatchMode="in">
+            <f:facet name="filter">
+                <p:selectCheckboxMenu label="Building" onchange="PF('eventsTable').filter()" scrollHeight="150"
+                                      styleClass="custom-filter">
+                    <f:selectItems value="#{eventsView.buildings}"/>
+                </p:selectCheckboxMenu>
+            </f:facet>
+            <h:outputText value="#{event.building}"/>
+        </p:column>
+        <p:column headerText="Ward">
+            <h:outputText value="#{event.ward}"/>
+        </p:column>
+        <p:column headerText="Kind's name">
+            <h:outputText value="#{event.promedName}"/>
+        </p:column>
+
+        <p:column headerText="Dose">
+            <h:outputText value="#{event.dose}"/>
+        </p:column>
+
+        <p:column headerText="Nurse">
+            <h:outputText value="#{event.nurseName}"/>
+        </p:column>
+    </p:dataTable>
+</h:form>
+
+<script type="application/javascript">
+    jQuery(document).ready(function () {
+        PF('eventsTable').filter();
+    });
+
+</script>
 </body>
 </html>
