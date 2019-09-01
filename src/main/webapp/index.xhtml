@@ -34,7 +34,7 @@
 
 
 <h:form>
-    <p:poll interval="3" update="eventsTable"/>
+    <p:poll interval="3" update="eventsTable" oncomplete="PF('eventsTable').filter()"/>
 
     <p:dataTable var="event" value="#{eventsView.events}" widgetVar="eventsTable" id="eventsTable"
                  emptyMessage="No events found with given criteria" filteredValue="#{eventsView.filteredEvents}">
@@ -80,12 +80,5 @@
         </p:column>
     </p:dataTable>
 </h:form>
-
-<script type="application/javascript">
-    jQuery(document).ready(function () {
-        PF('eventsTable').filter();
-    });
-
-</script>
 </body>
 </html>
