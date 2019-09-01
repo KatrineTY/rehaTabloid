@@ -1,11 +1,12 @@
 package com.javaschool;
 
-import javax.ejb.Lock;
-import javax.ejb.LockType;
+import lombok.extern.slf4j.Slf4j;
+
 import javax.ejb.Schedule;
 import javax.ejb.Singleton;
 import javax.inject.Inject;
 
+@Slf4j
 @Singleton
 public class TestScheduleBean {
 
@@ -14,7 +15,7 @@ public class TestScheduleBean {
 
     @Schedule(hour = "*", minute = "*/60")
     void scheduleMe() {
-        System.out.println("Scheduled request");
+        log.info("Scheduled request");
         eventsReceiverService.requestEvents();
     }
 

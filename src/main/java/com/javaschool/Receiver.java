@@ -4,8 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
-import java.util.logging.Logger;
-
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.ejb.Singleton;
@@ -32,6 +30,7 @@ public class Receiver {
         ConnectionFactory connectionFactory = new ActiveMQConnectionFactory(url);
         connection = connectionFactory.createConnection();
         connection.start();
+        log.info("Connected to activemq");
 
         session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
