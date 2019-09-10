@@ -1,7 +1,6 @@
 package com.javaschool;
 
 import lombok.extern.slf4j.Slf4j;
-import org.apache.activemq.ActiveMQConnection;
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.annotation.PostConstruct;
@@ -22,8 +21,8 @@ public class Receiver {
     @Inject
     private EventsReceiverService eventsReceiverService;
 
-    private static String url = ActiveMQConnection.DEFAULT_BROKER_URL;
-    private static String subject = "queue/rehaQueue";
+    private static String url = "tcp://192.168.99.100:61616";
+    private static String subject = "queue/rehaQueueTabloid";
 
     @PostConstruct
     public void receive() throws JMSException {

@@ -25,7 +25,7 @@ public class EventsReceiverService {
         log.info("Request events");
         URL jsonUrl = null;
         try {
-            jsonUrl = new URL("http://localhost:9595/RehabilitationClinic/events-for-tabloid");
+            jsonUrl = new URL("http://tomcat:8080/RehabilitationClinic/events-for-tabloid");
             ObjectMapper mapper = new ObjectMapper();
             List<Map> request = mapper.readValue(jsonUrl, eventsView.getEvents().getClass());
             eventsView.setEvents(fillEvents(request));
